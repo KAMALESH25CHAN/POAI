@@ -1,0 +1,31 @@
+
+facts = {"A", "B"}
+
+rules = [
+    ({"A", "B"}, "C"),
+    ({"C"}, "D"),
+    ({"D"}, "E"),
+]
+
+def backward_chaining(goal, facts, rules, indent=0):
+    print("  " * indent + f"Trying to prove: {goal}")
+    
+    if goal in facts:
+        print("  " * indent + f"✔ Found: {goal}")
+        return True
+
+    for antecedents, consequent in rules:
+        if consequent == goal:
+            print("  " * indent + f"🔍 Rule: {antecedents} => {consequent}")
+            if all(backward_chaining(a, facts, rules, indent + 1) for a in antecedents):
+                print("  " * indent + f"✅ Proven: {goal}")
+                return True
+
+    print("  " * indent + f"❌ Cannot prove: {goal}")
+    return False
+
+# Test proving E
+goal = "E"
+result = backward_chaining(goal, facts, rules)
+
+print(f"\nCan we prove '{goal}'? {'Yes' if result else 'No'}")
