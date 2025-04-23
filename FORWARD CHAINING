@@ -1,0 +1,31 @@
+
+facts = {"A", "B"}
+
+rules = [
+    ({"A", "B"}, "C"),
+    ({"C"}, "D"),
+    ({"D"}, "E"),
+]
+
+def forward_chaining(facts, rules):
+    inferred = set()
+    changed = True
+
+    print("=== Forward Chaining ===")
+    while changed:
+        changed = False
+        for antecedents, consequent in rules:
+            if antecedents.issubset(facts) and consequent not in facts:
+                facts.add(consequent)
+                inferred.add(consequent)
+                changed = True
+                print(f"Inferred: {consequent}")
+
+    return inferred
+
+# Run it
+forward_chaining(facts.copy(), rules)
+
+print("\nFinal Facts:")
+for fact in sorted(facts):
+    print(f"- {fact}")
