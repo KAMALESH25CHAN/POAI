@@ -1,0 +1,21 @@
+import heapq
+
+# Directions: Up, Down, Left, Right
+DIRS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+class Node:
+    def __init__(self, x, y, cost=0, heuristic=0, parent=None):
+        self.x = x
+        self.y = y
+        self.cost = cost              # g(n): Cost from start to current node
+        self.heuristic = heuristic    # h(n): Heuristic (Manhattan distance)
+        self.parent = parent
+
+    def f(self):
+        return self.cost + self.heuristic  # f(n) = g(n) + h(n)
+
+    def __lt__(self, other):  # For priority queue
+        return self.f() < other.f()
+
+def heuristic(a, b):
+    return abs(a[
